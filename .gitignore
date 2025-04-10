@@ -11,3 +11,7 @@
 
 #!.yarn/cache
 .pnp.*
+
+dist
+.DS_Store
+.idea
