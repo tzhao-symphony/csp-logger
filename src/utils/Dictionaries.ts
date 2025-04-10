@@ -1,40 +1,46 @@
 import {Dictionary} from "./Dictionnary.js";
-import {ToLightWeightObj} from "../reports/simplified-report.js";
 import {TwoWayMap} from "./TwoWayMap.js";
 
-export class Dictionnaries {
+export class Dictionaries<Fields extends ReadonlyArray<string>,
+    FieldsWithDictionary extends ReadonlyArray<string>,
+    ObjectInitialType extends {[K in Fields[number]]: any}
+    > {
     private readonly _dictionnaries: Map<number, Dictionary>;
     private readonly keyDict: TwoWayMap<number, string>;
 
-    constructor(fields: string[]) {
+    constructor(fields: Fields, fieldsWithDictionary: FieldsWithDictionary) {
         this._dictionnaries = new Map<number, Dictionary>();
         this.keyDict = new TwoWayMap();
         fields.forEach((field, index) => {
-            this._dictionnaries.set(index, new Dictionary())
+            if (fieldsWithDictionary.includes(field)) {
+                this._dictionnaries.set(index, new Dictionary())
+            }
             this.keyDict.add(index, field);
         });
     }
 
-    public getLightWeightObject<T extends {}>(object: T): ToLightWeightObj<T> {
-        const resObject = {};
-        Object.entries(object).forEach(([key, value]) => {
-            const keyIndex = this.keyDict.getKeyFromValue(key);
+    public getLightWeightObject(object: ObjectInitialType): Array<any> {
+        const resObject: any[] = [];
+        Object.entries(object).forEach(([fieldName, value]) => {
+            const keyIndex = this.keyDict.getKeyFromValue(fieldName);
             if (keyIndex !== undefined) {
                 const dictionary = this._dictionnaries.get(keyIndex);
                 if (dictionary !== undefined && (value === null || typeof value === 'string')) {
                     resObject[keyIndex] = dictionary.getOrAddIndex(value);
                     return;
                 }
+                resObject[keyIndex] = value;
+                return;
             }
-            resObject[key] = value;
+            resObject[fieldName] = value;
         });
-        return resObject as ToLightWeightObj<T>;
+        return resObject;
     }
 
-    public reviveLightWeightObject(object: Record<string, string | number>) {
+    public reviveLightWeightObject(object: Array<any>): ObjectInitialType {
         const resObject: any = {};
-        Object.entries(object).forEach(([key, value]) => {
-            const keyIndex = +key;
+        object.forEach((value, index) => {
+            const keyIndex = index;
             const keyString = this.keyDict.getValueFromKey(keyIndex);
             if (keyString !== undefined) {
                 const dictionary = this._dictionnaries.get(keyIndex);
@@ -42,13 +48,15 @@ export class Dictionnaries {
                     resObject[keyString] = dictionary.getValueFromIndex(value);
                     return;
                 }
+                resObject[keyString] = value;
+                return;
             }
-            resObject[key] = value;
+            resObject[index] = value;
         })
         return resObject;
     }
 
-    public getDictionnary() {
+    public getDictionary() {
         return {
             keyDict: Object.fromEntries(this.keyDict.kvEntries),
             dictionaries: Object.fromEntries(Array.from(this._dictionnaries.entries()).map(([key, value]) => {
@@ -61,5 +69,10 @@ export class Dictionnaries {
         for (let dict of this._dictionnaries.values()) {
             dict.clear();
         }
+    }
+
+    public getKeyIndexFromFieldName(name: string) {
+        return this.keyDict.getKeyFromValue(name);
+
     }
 }
