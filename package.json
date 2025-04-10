@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "node ./build.ts",
+    "start-ts": "tsx ./index.ts",
     "start": "concurrently \"yarn build --watch --isDev\" \"yarn watch:start\"",
     "start:prod": "concurrently \"yarn build --watch\" \"yarn watch:start\"",
     "watch:start": "dotenvx run --env-file .env.local -- node ./dist/index.cjs",

@@ -31,11 +31,11 @@ export class CspStore {
     }
 
     public addReport(reports: ReportsType): void {
-        ['enforce', 'dispose'].forEach(diposition => {
+        ['enforce', 'report'].forEach(diposition => {
                 const report = reports[diposition];
                 const policy = report.policy;
                 const time = Math.round(Date.now() / (24 * HOUR)) - this.baseTime;
-                report.reports.map(r => {
+                report.reports.forEach(r => {
                     const simplifiedReport: SimplifiedReport = toSimplifiedReport(r, policy, time);
                     const dictReport = this.dictionaries.getLightWeightObject(simplifiedReport);
                     const key = getSimplifiedReportKey(dictReport);
