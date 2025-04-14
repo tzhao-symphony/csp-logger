@@ -32,8 +32,8 @@ export class CspStore {
 
     public addReport(reports: ReportsType): void {
         ['enforce', 'report'].forEach(diposition => {
-                const report = reports[diposition];
-                const policy = report.policy;
+                const report = reports[diposition] as CustomReportType;
+                const policy = report.policy?.replace(/'nonce-(.*)'/g, `'nonce'`) || '';
                 const time = Math.round(Date.now() / (24 * HOUR)) - this.baseTime;
                 report.reports.forEach(r => {
                     const simplifiedReport: SimplifiedReport = toSimplifiedReport(r, policy, time);
