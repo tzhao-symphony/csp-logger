@@ -6,11 +6,12 @@ import {CspStore} from "./src/store.js";
 
 console.log("Configuration:\n", JSON.stringify(config, undefined, 4))
 
+const servicePath: string = 'csp';
+const env = ':env';
+
 const configuration = {
     logger: true
 };
-
-const cspCache : any[] = [];
 
 const cspStore = new CspStore();
 
@@ -19,44 +20,31 @@ server.addContentTypeParser('application/reports+json', {parseAs: 'string'}, ser
 
 server.register(cors, {origin: true})
 
-server.post<{ Body: ReportType[]}>('/csp',
-    async (request, reply) => {
-    const report = request.body;
-    console.log(JSON.stringify(report, undefined, 4));
-    cspCache.concat(...report.map(r => r.body));
-    reply.code(204).send();
-});
-
-server.post<{ Body: ReportsType}>('/csp/log',
+server.post<{ Body: ReportsType}>(`/${servicePath}/${env}/log`,
     async (request, reply) => {
         const report = request.body;
         cspStore.addReport(report);
         reply.code(204).send();
     });
 
-
-server.get('/showCsp', async (req, resp) => {
-    resp.send(cspCache);
-})
-
-server.get('/csp/show/revived', async (req, resp) => {
+server.get(`/${servicePath}/${env}/show/revived`, async (req, resp) => {
     resp.send(cspStore.getRevivedReport());
 })
 
-server.get('/csp/show/lightweight', async(req, res) => {
+server.get(`/${servicePath}/${env}/show/lightweight`, async(req, res) => {
     res.send(cspStore.getLightWeightReports());
 })
 
-server.get('/csp/health', async (request, reply) => {
+server.get(`/${servicePath}/${env}/health`, async (request, reply) => {
     reply.code(200).send({status: 'ok'})
 });
 
-server.get('/csp/reset', async (request, reply) => {
+server.get(`/${servicePath}/${env}/reset`, async (request, reply) => {
     cspStore.clear();
     reply.code(204).send()
 });
 
-server.get('/csp/version', async (request, reply) => {
+server.get(`/${servicePath}/${env}/version`, async (request, reply) => {
     reply.code(200).send({version: '1.0.0'});
 })
 

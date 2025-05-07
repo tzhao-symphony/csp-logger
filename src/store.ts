@@ -11,7 +11,7 @@ const HOUR = 60 * 60 * 1000;
 
 export class CspStore {
 
-    private baseTime: number;
+    private baseTime!: number;
 
     private lightWeightReports: Map<string, Array<any>>
         = new Map();
@@ -22,17 +22,18 @@ export class CspStore {
         this.dictionaries = new Dictionaries(
             SimplifiedReportKeys, SimplifiedReportIdentifierKeys
         );
-        this.baseTime = Math.round(Date.now() / (24 * HOUR));
+        this.resetBaseTime();
     }
 
     public clear() {
         this.lightWeightReports.clear();
         this.dictionaries.clear();
+        this.resetBaseTime();
     }
 
     public addReport(reports: ReportsType): void {
-        ['enforce', 'report'].forEach(diposition => {
-                const report = reports[diposition] as CustomReportType;
+        ['enforce', 'report'].forEach(disposition => {
+                const report = reports[disposition] as CustomReportType;
                 const policy = report.policy?.replace(/'nonce-(.*)'/g, `'nonce'`) || '';
                 const time = Math.round(Date.now() / (24 * HOUR)) - this.baseTime;
                 report.reports.forEach(r => {
@@ -60,5 +61,9 @@ export class CspStore {
             dict: this.dictionaries.getDictionary(),
             reports: Array.from(this.lightWeightReports.values()),
         };
+    }
+
+    private resetBaseTime() {
+        this.baseTime = Math.round(Date.now() / (24 * HOUR));
     }
 }

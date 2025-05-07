@@ -20,7 +20,7 @@
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.39.0",
     "@types/minimist": "^1",
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.15.14",
     "concurrently": "^9.1.2",
     "esbuild": "^0.25.2",
     "minimist": "^1.2.8",
