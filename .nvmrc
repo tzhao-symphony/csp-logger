@@ -1,2 +1,1 @@
-FROM node:23.9.0-alpine
-
+23.9.0
