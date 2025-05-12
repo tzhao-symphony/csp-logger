@@ -1,11 +1,11 @@
-import {CustomReport, CustomReportType, ReportsType, ReportType} from "./schemas/csp-violations.js";
-import {Dictionaries} from "./utils/Dictionaries.js";
+import {CustomReport, CustomReportType, ReportsType, ReportType} from "@sym-csp-logger/common";
+import {Dictionaries} from "@sym-csp-logger/common";
 import {
     SimplifiedReport,
     SimplifiedReportIdentifierKeys,
     SimplifiedReportKeys,
-} from "./reports/simplified-report.js";
-import {getSimplifiedReportKey, toSimplifiedReport} from "./utils/csp-violation.utils.js";
+} from "@sym-csp-logger/common";
+import {getSimplifiedReportKey, toSimplifiedReport} from "@sym-csp-logger/common";
 
 const HOUR = 60 * 60 * 1000;
 

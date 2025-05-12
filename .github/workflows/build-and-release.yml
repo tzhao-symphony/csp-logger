@@ -18,7 +18,7 @@ jobs:
       - uses: actions/cache/save@v4
         with:
           key: ${{ github.sha }}
-          path: dist
+          path: packages/server/dist
 
   publish-image:
     needs: build
@@ -34,7 +34,7 @@ jobs:
         id: cache
         with:
           key: ${{ github.sha }}
-          path: dist
+          path: packages/server/dist
 
       - uses: docker/login-action@v3
         with:
@@ -50,8 +50,8 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
-          context: .
+          context: packages/server
           push: true
           tags: ghcr.io/${{ env.repo }}:${{ steps.tag.outputs.new_tag }}
-          file: docker/Dockerfile
+          file: packages/server/docker/Dockerfile
 

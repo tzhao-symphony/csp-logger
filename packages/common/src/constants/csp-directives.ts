@@ -26,5 +26,5 @@ export const cspDirectives = [
     'trusted-types',
     'upgrade-insecure-requests',
     'block-all-mixed-content',
-    'report-uri'
+    'report-uri',
 ]

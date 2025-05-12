@@ -1,6 +1,6 @@
-import {CustomCspViolation, CustomReportType, CustomViolationType, ReportType} from "../schemas/csp-violations.js";
-import {blockedUrlNonUrlValues, urlProtocolRequiringPath} from "../constants/csp-violations.js";
-import {SimplifiedReport, SimplifiedReportIdentifierKeys} from "../reports/simplified-report.js";
+import {CustomCspViolation, CustomReportType, CustomViolationType, ReportType} from "../schemas/csp-violations";
+import {blockedUrlNonUrlValues, urlProtocolRequiringPath} from "../constants/csp-violations";
+import {SimplifiedReport, SimplifiedReportIdentifierKeys} from "../reports/simplified-report";
 
 export function toSimplifiedReport(report: CustomViolationType,
                                    policy: string,

@@ -1,5 +1,5 @@
-import {cspDirectives} from "../constants/csp-directives.js";
-import {blockedUrlNonUrlValues} from "../constants/csp-violations.js";
+import {cspDirectives} from "@sym-csp-logger/common";
+import {blockedUrlNonUrlValues} from "@sym-csp-logger/common";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 

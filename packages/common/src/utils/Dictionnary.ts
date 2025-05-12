@@ -1,4 +1,4 @@
-import {TwoWayMap} from "./TwoWayMap.js";
+import {TwoWayMap} from "./TwoWayMap";
 
 export class Dictionary {
     private readonly _map: TwoWayMap<number, string | null>;

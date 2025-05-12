@@ -1,7 +1,7 @@
 import fastify from 'fastify'
-import {ReportsType, ReportType} from "./src/schemas/csp-violations.js";
+import {ReportsType, ReportType} from "@sym-csp-logger/common";
 import cors from '@fastify/cors';
-import {config} from "./src/configuration/config.js";
+import {config} from "./src/configuration/config.js"; 
 import {CspStore} from "./src/store.js";
 
 console.log("Configuration:\n", JSON.stringify(config, undefined, 4))

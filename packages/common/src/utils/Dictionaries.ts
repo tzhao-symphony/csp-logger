@@ -1,5 +1,5 @@
-import {Dictionary} from "./Dictionnary.js";
-import {TwoWayMap} from "./TwoWayMap.js";
+import {Dictionary} from "./Dictionnary";
+import {TwoWayMap} from "./TwoWayMap";
 
 export class Dictionaries<Fields extends ReadonlyArray<string>,
     FieldsWithDictionary extends ReadonlyArray<string>,
@@ -26,7 +26,7 @@ export class Dictionaries<Fields extends ReadonlyArray<string>,
             if (keyIndex !== undefined) {
                 const dictionary = this._dictionnaries.get(keyIndex);
                 if (dictionary !== undefined && (value === null || typeof value === 'string')) {
-                    resObject[keyIndex] = dictionary.getOrAddIndex(value);
+                    resObject[keyIndex] = dictionary.getOrAddIndex(value as any);
                     return;
                 }
                 resObject[keyIndex] = value;
